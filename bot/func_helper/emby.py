@@ -6,7 +6,7 @@ emby的api操作方法
 from datetime import datetime, timedelta, timezone
 
 import requests as r
-from bot import emby_url, emby_api, emby_block, extra_emby_libs, LOGGER
+from bot import emby_url, emby_api, emby_block, extra_emby_libs, emby_bitrate, LOGGER
 from bot.sql_helper.sql_emby import sql_update_emby, Emby
 from bot.func_helper.utils import pwd_create, convert_runtime, cache, Singleton
 
@@ -47,7 +47,8 @@ def create_policy(admin=False, disable=False, limit: int = 2, block: list = None
         "EnableAllDevices": True,
         "SimultaneousStreamLimit": limit,
         "BlockedMediaFolders": block,
-        "AllowCameraUpload": False  # 新版api 控制开关相机上传
+        "AllowCameraUpload": False,  # 新版api 控制开关相机上传
+        "RemoteClientBitrateLimit": emby_bitrate
     }
     return policy
 

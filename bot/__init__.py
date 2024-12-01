@@ -36,6 +36,7 @@ schedall = config.schedall
 emby_api = config.emby_api
 emby_url = config.emby_url
 emby_line = config.emby_line
+emby_bitrate = config.emby_bitrate
 emby_block = config.emby_block
 extra_emby_libs = config.extra_emby_libs
 # # 数据库
@@ -90,6 +91,7 @@ admin_p = user_p + [
     BotCommand("syncgroupm", "消灭不在群的人 [管理]"),
     BotCommand("syncunbound", "消灭未绑定bot的emby账户 [管理]"),
     BotCommand("low_activity", "手动运行活跃检测 [管理]"),
+    BotCommand("update_userpolicy", "手动运行用户配置 [管理]"),
     BotCommand("check_ex", "手动到期检测 [管理]"),
     BotCommand("uranks", "召唤观影时长榜，失效时用 [管理]"),
     BotCommand("days_ranks", "召唤播放次数日榜，失效时用 [管理]"),
