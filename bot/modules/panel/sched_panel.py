@@ -24,6 +24,7 @@ loop.call_later(5, lambda: loop.create_task(check_restart()))
 auto_backup_db = DbBackupUtils.auto_backup_db
 user_plays_rank = Uplaysinfo.user_plays_rank
 check_low_activity = Uplaysinfo.check_low_activity
+check_update_userpolicy = Uplaysinfo.check_update_userpolicy
 
 async def user_day_plays(): await user_plays_rank(1)
 
@@ -40,6 +41,7 @@ action_dict = {
     "weekplayrank": user_week_plays,
     "check_ex": check_expired,
     "low_activity": check_low_activity,
+    "update_userpolicy": check_update_userpolicy,
     "backup_db": auto_backup_db,
     "sync_favorites": sync_favorites
 }
@@ -52,6 +54,7 @@ args_dict = {
     "weekplayrank": {'day_of_week': "sun", 'hour': 23, 'minute': 0, 'id': 'user_week_plays'},
     "check_ex": {'hour': 1, 'minute': 30, 'id': 'check_expired'},
     "low_activity": {'hour': 8, 'minute': 30, 'id': 'check_low_activity'},
+    "update_userpolicy": {'hour': 0, 'minute': 30, 'id': 'check_update_userpolicy'},
     "backup_db": {'hour': 2, 'minute': 30, 'id': 'backup_db'},
     "sync_favorites": {'hour': 0, 'minute': 0, 'id': 'sync_favorites'}
 }
@@ -122,6 +125,11 @@ async def run_low_ac(_, msg):
     send = await msg.reply(f"⭕ 不活跃检测运行ing···")
     await asyncio.gather(check_low_activity(), send.delete())
 
+@bot.on_message(filters.command('update_userpolicy', prefixes) & admins_on_filter)
+async def run_low_ac(_, msg):
+    await deleteMessage(msg)
+    send = await msg.reply(f"🫧 用户配置运行ing···")
+    await asyncio.gather(check_update_userpolicy(), send.delete())
 
 @bot.on_message(filters.command('uranks', prefixes) & admins_on_filter)
 async def shou_dong_uplayrank(_, msg):

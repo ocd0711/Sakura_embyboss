@@ -71,6 +71,7 @@ class Schedall(BaseModel):
     weekplayrank: bool = True
     check_ex: bool = True
     low_activity: bool = False
+    update_userpolicy: bool = False
     day_ranks_message_id: int = 0
     week_ranks_message_id: int = 0
     restart_chat_id: int = 0
@@ -144,6 +145,7 @@ class Config(BaseModel):
     emby_url: str
     emby_block: Optional[List[str]] = []
     emby_line: str
+    emby_bitrate: int = 0
     extra_emby_libs: Optional[List[str]] = []
     db_host: str
     db_user: str

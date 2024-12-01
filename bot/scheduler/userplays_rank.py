@@ -159,3 +159,36 @@ class Uplaysinfo:
         chunks = [msg[i:i + n] for i in range(0, len(msg), n)]
         for c in chunks:
             await bot.send_message(chat_id=group[0], text=c + f'**{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}**')
+
+    @staticmethod
+    async def check_update_userpolicy():
+        now = datetime.now(timezone(timedelta(hours=8)))
+        success, users = await emby.users()
+        if not success:
+            return await bot.send_message(chat_id=group[0], text='⭕ 调用emby api失败')
+        msg = ''
+        # print(users)
+        for user in users:
+            # 数据库先找
+            e = sql_get_emby(tg=user["Name"])
+            if e is None:
+                continue
+
+            try:
+                if await emby.emby_change_policy(id=user["Id"], method=(e.lv=='c')):
+                    msg += f"**🫧用户配置** - [{user['Name']}](tg://user?id={e.tg})\n#id{e.tg} 用户配置同步成功\n\n"
+                    LOGGER.info(f"【用户配置】- 禁用账户 {user['Name']} #id{e.tg}：用户配置同步成功")
+                else:
+                    msg += f"**🫧用户配置** - [{user['Name']}](tg://user?id={e.tg})\n用户配置，同步失败啦！检查emby连通性\n\n"
+                    LOGGER.info(f"【用户配置】- 禁用账户 {user['Name']} #id{e.tg}：用户配置同步失败啦！检查emby连通性")
+            except KeyError:
+                if await emby.emby_change_policy(id=user["Id"], method=(e.lv=='c')):
+                    msg += f"**🫧用户配置** - [{user['Name']}](tg://user?id={e.tg})\n#id{e.tg} 用户配置同步成功\n\n"
+                    LOGGER.info(f"【用户配置】- 禁用账户 {user['Name']} #id{e.tg}：用户配置同步成功")
+                else:
+                    msg += f"**🫧用户配置** - [{user['Name']}](tg://user?id={e.tg})\n#id{e.tg} 用户配置，同步失败啦！检查emby连通性\n\n"
+                    LOGGER.info(f"【用户配置】- 禁用账户 {user['Name']} #id{e.tg}：用户配置同步失败啦！检查emby连通性")
+        n = 1000
+        chunks = [msg[i:i + n] for i in range(0, len(msg), n)]
+        for c in chunks:
+            await bot.send_message(chat_id=group[0], text=c + f'**{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}**')

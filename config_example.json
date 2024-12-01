@@ -15,6 +15,7 @@
   "emby_api": "xxxxx",
   "emby_url": "http://255.255.255.255:8096",
   "emby_line": "susuyyds.com",
+  "emby_bitrate": 50000000,
   "db_host": "localhost",
   "db_user": "",
   "db_pwd": "",
@@ -56,7 +57,8 @@
     "weekplayrank": false,
     "check_ex": true,
     "low_activity": false,
-    "backup_db": false
+    "backup_db": false,
+    "update_userpolicy": false
   },
   "db_is_docker": true,
   "db_docker_name": "mysql",
